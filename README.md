@@ -1,73 +1,48 @@
 # SQL-coder
-This Python script serves as a SQL query generator for a SQLite database. It utilizes the Hugging Face transformers library to generate SQL queries based on user input and executes them against the specified SQLite database.
+
+This repository contains a Python script designed to interact with a SQLite database, utilizing natural language processing (NLP) techniques to generate and execute SQL queries based on user input. The script employs the Hugging Face transformers library and the gemma model for text generation tasks.
+
+## Setup
+
+Before running the script, make sure to install the necessary dependencies. You can install them via pip:
+
+```
+!pip3 install -q -U accelerate==0.27.1
+!pip3 install -q -U transformers==4.38.0
+!pip install gemma
+!pip3 install bitsandbytes  sqlparse
+
+```
 
 
+## Usage
+#### Database Connection: 
+Ensure that you have a SQLite database file (sql-murder-mystery.db in this case) accessible.
 
-Installation
-bash
-Copy code
-pip install -q -U accelerate==0.27.1
-pip install -q -U transformers==4.38.0
-pip install gemma
-pip install bitsandbytes
-pip install sqlparse
-Usage
-Import Required Libraries:
+#### Run the Script: 
+Execute the provided Python script. This script includes functions for querying the database based on user prompts.
 
-python
-Copy code
-import sqlite3
-from tabulate import tabulate
-import transformers
-from transformers import AutoTokenizer, AutoModelForCausalLM
-from transformers import GemmaTokenizer
-import re
-from transformers import pipeline
-import torch
-import sqlparse
-Initialize Database Connection:
+#### Interacting with the Script:
 
-Specify the path to your SQLite database file.
+Upon running the script, you will be prompted to input a task in natural language.
 
-python
-Copy code
-database_file = 'path/to/your/database.db'
-Generate SQL Query:
+The script will generate an SQL query based on your input.
 
-Call the generate_response function with the desired SQL query prompt.
+The generated SQL query will be executed on the SQLite database, and the results will be displayed.
 
-python
-Copy code
-sql_query = generate_response('Prompt for the SQL query')
-Execute SQL Query:
 
-Execute the generated SQL query against the database.
+## Script Overview
+#### get_schema_as_string(database_file): 
+This function retrieves the schema of the database and returns it as a string.
 
-python
-Copy code
-results = execute_sql_query(database_file, sql_query)
-print(results)
-Display Schema:
+#### generate_response(text): 
+This function generates an SQL query based on the provided natural language task using the Gemma model from Hugging Face's transformers library.
 
-Display the schema of the tables in the database.
+#### reformat_sql_query(text): 
+This function reformats the generated SQL query for better readability.
 
-python
-Copy code
-schema = get_schema_as_string(database_file)
-show_table_schema(schema)
-Functions
-generate_response(text): Generates a SQL query based on the provided prompt using the Hugging Face transformers library.
-execute_sql_query(database_file, sql_query): Executes the SQL query against the SQLite database and returns the results.
-get_schema_as_string(database_file): Retrieves the schema of the tables in the SQLite database as a string.
-show_table_schema(schema): Displays the schema of the tables in the database.
-Example
-python
-Copy code
-# Generate SQL query
-sql_query = generate_response('Prompt for the SQL query')
+#### execute_sql_query(database_file, sql_query):
+This function executes the SQL query on the specified database file and returns the results.
 
-# Execute SQL query
-results = execute_sql_query(database_file, sql_query)
-print(results)
-Note
-Ensure that you have the necessary permissions to execute SQL queries against the SQLite database and that the database file path is correctly specified.
+#### show_table_schema(schema): 
+This function displays the schema of the tables in the database.
